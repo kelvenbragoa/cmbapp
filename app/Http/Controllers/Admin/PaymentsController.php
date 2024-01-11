@@ -20,6 +20,8 @@ class PaymentsController extends Controller
             ->when(request('query'),function($query,$searchQuery){
                 $query->where('id','like',"%{$searchQuery}%");
             })
+            ->with('fee')
+            ->with('user')
             ->orderBy('id','asc')
             ->paginate();
 
@@ -54,7 +56,9 @@ class PaymentsController extends Controller
     {
         //
         $payment = Payments::
-        find($id);
+        with('fee')
+        ->with('user')
+        ->find($id);
 
         $searchQuery = request('query');
 

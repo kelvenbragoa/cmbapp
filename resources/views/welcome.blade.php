@@ -5,13 +5,13 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="InoGest, sistema de gestão, manutenção e disponibilidade de equipamentos">
+	<meta name="description" content="CMB">
 	<meta name="author" content="M+D">
 	<meta name="keywords" content="gestão, management, erp, human resource, inogest, inovatis, tecnologia, mozambique">
 
 	<link rel="shortcut icon" href="storage/img/sys/logoinogesticon.png" />
 
-	<title>InoGest</title>
+	<title>CMB</title>
 
 	<link href="{{asset('template/css/app.css')}}" rel="stylesheet">
 </head>
