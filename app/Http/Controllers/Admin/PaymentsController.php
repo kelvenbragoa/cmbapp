@@ -62,9 +62,6 @@ class PaymentsController extends Controller
 
         $searchQuery = request('query');
 
-       
-
-
         return [
             'payment'=>$payment,
             
