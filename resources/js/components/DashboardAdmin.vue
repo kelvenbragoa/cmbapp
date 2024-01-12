@@ -96,7 +96,7 @@ const refreshData = () =>{
 onMounted(()=>{
 
     getDashboardData();
-    setInterval(refreshData, 30000); 
+    setInterval(refreshData, 5000); 
 
 })
 
