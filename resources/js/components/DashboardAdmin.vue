@@ -18,30 +18,11 @@ const suppliers = ref(0)
 const tasks = ref(0)
 const equipments = ref(0)
 const mcscr = ref(0)
+const componentKey = ref(0);
+const componentKey1 = ref(0);
 
 let currency = new Intl.NumberFormat();
-
-
-const getDashboardData = () =>{
-    axios.get('/admins/dashboard/getdashboarddata')
-    .then((response)=>{
-        users.value = response.data.users
-        today.value = response.data.today
-        yesterday.value = response.data.yesterday
-        month.value = response.data.month
-        year.value = response.data.year
-
-        chartData.value.datasets[0].data = response.data.dataChartPaymentDay;
-        chartData1.value.datasets[0].data = response.data.dataChartPaymentMonth;
-        // malfunctions.value = response.data.malfunctions
-        // suppliers.value = response.data.suppliers
-        // tasks.value = response.data.tasks
-        // equipments.value = response.data.equipments
-        // mcscr.value = response.data.mcscr
-        loadingDiv.value=false;
-    })
-}
-const chartData = ref({
+const chartData = reactive({
           labels: [  '1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'
                 ],
                 datasets: [
@@ -52,12 +33,11 @@ const chartData = ref({
                           },
                         ]
         })
-        
-  const  chartOptions = {
+        const  chartOptions = {
           responsive: true, 
         }
 
-        const chartData1 = ref({
+        const chartData1 = reactive({
             labels: [ 
                     'Janeiro',
                     'Fevereiro',
@@ -84,13 +64,42 @@ const chartData = ref({
   const  chartOptions1 = {
           responsive: true, 
         }
+const getDashboardData = () =>{
+    axios.get('/admins/dashboard/getdashboarddata')
+    .then((response)=>{
+        users.value = response.data.users
+        today.value = response.data.today
+        yesterday.value = response.data.yesterday
+        month.value = response.data.month
+        year.value = response.data.year
+
+        chartData.datasets[0].data = response.data.dataChartPaymentDay;
+        chartData1.datasets[0].data = response.data.dataChartPaymentMonth;
+        // malfunctions.value = response.data.malfunctions
+        // suppliers.value = response.data.suppliers
+        // tasks.value = response.data.tasks
+        // equipments.value = response.data.equipments
+        // mcscr.value = response.data.mcscr
+        loadingDiv.value=false;
+    })
+}
+
+const refreshData = () =>{
+
+    getDashboardData()
+    componentKey.value += 1;
+    componentKey1.value += 1;
+}   
+
 
 
 onMounted(()=>{
 
     getDashboardData();
+    setInterval(refreshData, 30000); 
 
 })
+
 
 
 onUpdated(()=>{
@@ -233,6 +242,7 @@ onUpdated(()=>{
                                            
                                         </div>
                                         <hr>
+                                       
                                         <div class="col-12 col-lg-12">
                                             <div class="card">
                                                 <div class="card-header">
@@ -245,6 +255,7 @@ onUpdated(()=>{
                                                             id="my-chart-id"
                                                             :options="chartOptions"
                                                             :data="chartData"
+                                                            :key="componentKey"
                                                             />
                                                     </div>
                                                 </div>
@@ -262,6 +273,7 @@ onUpdated(()=>{
                                                             id="my-chart-id"
                                                             :options="chartOptions1"
                                                             :data="chartData1"
+                                                            :key="componentKey1"
                                                             />
                                                     </div>
                                                 </div>
