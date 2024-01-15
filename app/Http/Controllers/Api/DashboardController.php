@@ -49,8 +49,8 @@ class DashboardController extends Controller
 
 
     public function index(){
-        return response([
-            'heelo'
-        ]);
+
+
+        return 'hello';
     }
 }
