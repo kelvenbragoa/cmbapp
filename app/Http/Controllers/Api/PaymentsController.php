@@ -31,13 +31,14 @@ class PaymentsController extends Controller
         $fee = FeeAnLicence::find($data['licence_id']);
 
 
-
         $payment = Payments::create([
             'user_id'=>$data['user_id'],
             'licence_id'=>$data['licence_id'],
             'amount'=>$fee->amount,
             'title'=>$data['title'] ?? 'Municipe',
             'obs'=>$data['obs'] ?? '-',
+            'latitude'=>$data['latitude'],
+            'longitude'=>$data['longitude'],
         ]);
 
 

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('licence_id');
             $table->double('amount',10,2);
+            $table->double('latitude',15,2);
+            $table->double('longitude',15,2);
             $table->text('title')->nullable();
             $table->text('obs')->nullable();
             $table->timestamps();

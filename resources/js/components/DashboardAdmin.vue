@@ -85,7 +85,6 @@ const getDashboardData = () =>{
 }
 
 const refreshData = () =>{
-
     getDashboardData()
     componentKey.value += 1;
     componentKey1.value += 1;

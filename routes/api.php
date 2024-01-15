@@ -22,6 +22,8 @@ Route::get('/getpayments/{id}',[\App\Http\Controllers\Api\PaymentsController::cl
 Route::get('/getpayment/{id}',[\App\Http\Controllers\Api\PaymentsController::class,'paymentdetail']);
 Route::post('/createpayment',[\App\Http\Controllers\Api\PaymentsController::class,'createpayment']);
 
+Route::get('/hello',[\App\Http\Controllers\Api\DashboardController::class,'index']);
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -14,7 +14,9 @@ class Payments extends Model
         'amount',
         'licence_id',
         'title',
-        'obs'
+        'obs',
+        'latitude',
+        'longitude',
     ];
 
     public function user(){
