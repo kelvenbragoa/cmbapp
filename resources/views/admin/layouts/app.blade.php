@@ -21,7 +21,7 @@
 		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content js-simplebar">
 				<router-link class="sidebar-brand" to="/admin/dashboard">
-          			<span class="align-middle">CMB</span>
+          			<span class="align-middle">EMRICH</span>
         		</router-link>
 
 				<ul class="sidebar-nav">
@@ -452,7 +452,7 @@
 					<div class="row text-muted">
 						<div class="col-6 text-left">
 							<p class="mb-0">
-								<a href="#" class="text-muted"><strong>CMB</strong></a> &copy; {{ date('Y')}}
+								<a href="#" class="text-muted"><strong>EMRICH</strong></a> &copy; {{ date('Y')}}
 							</p>
 						</div>
 						<div class="col-6 text-right">

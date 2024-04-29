@@ -25,7 +25,7 @@
 
 						<div class="text-center mt-4">
 							<h1 class="h2">Bem Vindo de Volta</h1>
-                            <h1 class="h2">Sistema De Cobrança de Taxas Autarquicas</h1>
+                            <h1 class="h2">Sistema De Cobrança de Taxas</h1>
 							
 						</div>
 
