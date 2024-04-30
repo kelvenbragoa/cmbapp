@@ -135,7 +135,7 @@ onMounted(()=>{
                                                         <td>
                                                             <router-link :to="'/manager/fees/'+actualData.id+'/edit'"><vue-feather type="edit-2"></vue-feather></router-link>
                                                             <router-link :to="'/manager/fees/'+actualData.id"><vue-feather type="eye"></vue-feather></router-link> 
-                                                            <a href="#" @click.prevent="confirmDeletion(actualData)"><vue-feather type="trash"></vue-feather></a>
+                                                            <!-- <a href="#" @click.prevent="confirmDeletion(actualData)"><vue-feather type="trash"></vue-feather></a> -->
                                                             
                                                         </td>
                                                     </tr>
