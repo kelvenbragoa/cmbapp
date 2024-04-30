@@ -39,6 +39,7 @@ class PaymentsController extends Controller
             'obs'=>$data['obs'] ?? '-',
             'latitude'=>$data['latitude'],
             'longitude'=>$data['longitude'],
+            'method'=>$data['method'] ?? 'cash',
         ]);
 
 
