@@ -13,14 +13,14 @@ class PaymentsController extends Controller
 
     public function getpayments($id){
         return response([
-            'payments' => Payments::where('user_id',$id)->with('fee')->with('user')->get(),
+            'payments' => Payments::where('user_id',$id)->with('fee')->with('user')->orderBy('id','desc')->get(),
         ],200);
     }
 
 
     public function paymentdetail($id){
         return response([
-            'payment' => Payments::where('id',$id)->with('fee')->with('user')->get(),
+            'payment' => Payments::where('id',$id)->with('fee')->with('user')->orderBy('id','desc')->get(),
         ],200);
     }
 
