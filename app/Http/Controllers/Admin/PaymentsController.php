@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\FeeAnLicence;
 use App\Models\Payments;
 use Illuminate\Http\Request;
 
@@ -22,10 +23,15 @@ class PaymentsController extends Controller
             })
             ->with('fee')
             ->with('user')
-            ->orderBy('id','asc')
+            ->orderBy('id','desc')
             ->paginate();
 
-            return $payments;
+            $fees = FeeAnLicence::orderBy('name','asc')->get();
+
+            return response()->json([
+                'payments' => $payments,
+                'fees'=>$fees
+            ]);
     }
 
     /**

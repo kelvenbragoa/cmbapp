@@ -12,6 +12,8 @@ const toastr = useToastr();
 const searchQuery = ref(null);
 const loadingDiv = ref(true);
 const loadingButtonDelete = ref(false);
+const isLoadingButtonExport = ref(false);
+
 
 
 
@@ -69,7 +71,29 @@ axios.delete(`/users/${dataIdBeingDeleted}`)
  loadingButtonDelete.value= false;
 });
 }
+const downloadReport = () => {
+    isLoadingButtonExport.value = true;
+    axios
+        .get(`/export/user`, { responseType: 'blob' })
+        .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'user.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            toastr.success('Relatorio baixado com sucesso');
 
+            // toast.add({ severity: 'success', detail: `Relatorio baixado com sucesso`, summary: 'Sucesso', life: 3000 });
+            isLoadingButtonExport.value = false;
+        })
+        .catch((error) => {
+            isLoadingButtonExport.value = false;
+            toastr.error('Erro');
+
+            // toast.add({ severity: 'error', detail: `${error}`, summary: 'Erro', life: 3000 });
+        });
+};
 watch(searchQuery,debounce(()=>{
     getData();
 },300));
@@ -92,6 +116,7 @@ onMounted(()=>{
                                         <h6 class="card-subtitle text-muted">Para procurar, digite na caixa de procura</h6>
 
                                         <router-link to="/admin/users/create" class="btn btn-pill btn-primary mt-3"><vue-feather type="plus"></vue-feather>Adicionar</router-link> 
+                                        <button @click="downloadReport()" :disabled="isLoadingButtonExport" class="btn btn-pill btn-primary mt-3 ml-2"><vue-feather type="download"></vue-feather>Baixar relátorio</button> 
 
                                         <br>
 

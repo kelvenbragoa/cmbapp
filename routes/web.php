@@ -32,6 +32,10 @@ Route::get('/auxiliar-create-data', [App\Http\Controllers\GlobalController::clas
     Route::resource('users', 'App\Http\Controllers\Admin\UsersController');
     Route::resource('fees', 'App\Http\Controllers\Admin\FeesController');
     Route::resource('payments', 'App\Http\Controllers\Admin\PaymentsController');
+    Route::get('/export/user', [App\Http\Controllers\Admin\ExportController::class, 'user']);
+    Route::get('/export/fee', [App\Http\Controllers\Admin\ExportController::class, 'fee']);
+    Route::get('/export/payment', [App\Http\Controllers\Admin\ExportController::class, 'payment']);
+
 
 
 
