@@ -210,7 +210,7 @@ onMounted(()=>{
                                    
 								
                                 </div>
-                                <Bootstrap4Pagination :data="retriviedData" @pagination-change-page="getData"/>
+                                <Bootstrap4Pagination :data="retriviedData" :limit="10" @pagination-change-page="getData"/>
                             </div>
                         </div>
 
