@@ -30,6 +30,8 @@ class ExportController extends Controller
         // $endDate = Carbon::createFromFormat('Y-m-d', request('enddate'));
         $fee = request('fee');
 
+        $operator = request('operator');
+
         // dd($startdate,$enddate);
         $payment = Payments::query()
             ->when(request('fee'),function($query,$fee){
@@ -40,6 +42,9 @@ class ExportController extends Controller
             })
             ->when(request('enddate'),function($query,$enddate){
                 $query->whereDate('created_at','<=',$enddate);
+            })
+            ->when(request('operator'),function($query,$operator){
+                $query->where('user_id',$operator);
             })
             ->orderBy('created_at','desc')            
             ->get();

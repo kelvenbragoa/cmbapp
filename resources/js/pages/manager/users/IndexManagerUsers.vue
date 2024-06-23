@@ -12,6 +12,8 @@ const toastr = useToastr();
 const searchQuery = ref(null);
 const loadingDiv = ref(true);
 const loadingButtonDelete = ref(false);
+const isLoadingButtonExport = ref(false);
+
 
 
 
@@ -69,7 +71,29 @@ axios.delete(`/users/${dataIdBeingDeleted}`)
  loadingButtonDelete.value= false;
 });
 }
+const downloadReport = () => {
+    isLoadingButtonExport.value = true;
+    axios
+        .get(`/export/user`, { responseType: 'blob' })
+        .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'user.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            toastr.success('Relatorio baixado com sucesso');
 
+            // toast.add({ severity: 'success', detail: `Relatorio baixado com sucesso`, summary: 'Sucesso', life: 3000 });
+            isLoadingButtonExport.value = false;
+        })
+        .catch((error) => {
+            isLoadingButtonExport.value = false;
+            toastr.error('Erro');
+
+            // toast.add({ severity: 'error', detail: `${error}`, summary: 'Erro', life: 3000 });
+        });
+};
 watch(searchQuery,debounce(()=>{
     getData();
 },300));
@@ -91,7 +115,8 @@ onMounted(()=>{
                                         <h5 class="card-title">Tabela dos usuários do sistema. {{ retriviedData.total }} registros encontrados.</h5>
                                         <h6 class="card-subtitle text-muted">Para procurar, digite na caixa de procura</h6>
 
-                                        <!-- <router-link to="/manager/users/create" class="btn btn-pill btn-primary mt-3"><vue-feather type="plus"></vue-feather>Adicionar</router-link>  -->
+                                        <router-link to="/admin/users/create" class="btn btn-pill btn-primary mt-3"><vue-feather type="plus"></vue-feather>Adicionar</router-link> 
+                                        <button @click="downloadReport()" :disabled="isLoadingButtonExport" class="btn btn-pill btn-primary mt-3 ml-2"><vue-feather type="download"></vue-feather>Baixar relátorio</button> 
 
                                         <br>
 
@@ -127,7 +152,7 @@ onMounted(()=>{
                                                         <td>{{ actualData.role.name}}</td>
                                                         <td><span class="badge bg-success" v-if="actualData.user_status_id == 1">Ativo</span> <span class="badge bg-danger" v-else>Inativo</span></td>
                                                         <td>
-                                                            <!-- <router-link :to="'/manager/users/'+actualData.id+'/edit'"><vue-feather type="edit-2"></vue-feather></router-link> -->
+                                                            <!-- <router-link :to="'/admin/users/'+actualData.id+'/edit'"><vue-feather type="edit-2"></vue-feather></router-link> -->
                                                             <router-link :to="'/manager/users/'+actualData.id"><vue-feather type="eye"></vue-feather></router-link> 
                                                             <!-- <a href="#" @click.prevent="confirmDeletion(actualData)"><vue-feather type="trash"></vue-feather></a> -->
                                                             

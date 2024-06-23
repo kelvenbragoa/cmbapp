@@ -10,8 +10,17 @@ import VueFeather from 'vue-feather';
 
 const toastr = useToastr();
 const searchQuery = ref(null);
+const startdate = ref(null);
+const enddate = ref(null);
+const feelicence = ref(null);
+const operator = ref(null);
+
+const fees = ref([]);
+const operators = ref([]);
+
 const loadingDiv = ref(true);
 const loadingButtonDelete = ref(false);
+const isLoadingButtonExport = ref(false);
 
 
 
@@ -28,7 +37,10 @@ let dataIdBeingDeleted = ref(null);
         }
       })
        .then((response)=>{
-        retriviedData.value = response.data;
+        retriviedData.value = response.data.payments;
+        fees.value = response.data.fees;
+        operators.value = response.data.operators;
+
         loadingDiv.value=false;
 
         
@@ -70,6 +82,39 @@ axios.delete(`/payments/${dataIdBeingDeleted}`)
 });
 }
 
+const downloadReport = () => {
+    isLoadingButtonExport.value = true;
+    axios
+        .get(`/export/payment`, { 
+            responseType: 'blob', 
+            params:{
+            startdate: startdate.value,
+            enddate: enddate.value,
+            fee: feelicence.value,
+            operator: operator.value
+            }
+        })
+        .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'payment.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            toastr.success('Relatorio baixado com sucesso');
+
+            // toast.add({ severity: 'success', detail: `Relatorio baixado com sucesso`, summary: 'Sucesso', life: 3000 });
+            isLoadingButtonExport.value = false;
+        })
+        .catch((error) => {
+            isLoadingButtonExport.value = false;
+            toastr.error('Erro');
+
+            // toast.add({ severity: 'error', detail: `${error}`, summary: 'Erro', life: 3000 });
+        });
+};
+
+
 watch(searchQuery,debounce(()=>{
     getData();
 },300));
@@ -90,16 +135,39 @@ onMounted(()=>{
                                     <div class="card-header">
                                         <h5 class="card-title">Tabela das Pagamentos do sistema. {{ retriviedData.total }} registros encontrados.</h5>
                                         <h6 class="card-subtitle text-muted">Para procurar, digite na caixa de procura</h6>
-
-                                        <!-- <router-link to="/manager/payments/create" class="btn btn-pill btn-primary mt-3"><vue-feather type="plus"></vue-feather>Adicionar</router-link>  -->
-
+                                        <button @click="downloadReport()" :disabled="isLoadingButtonExport" class="btn btn-pill btn-primary mt-3 ml-2"><vue-feather type="download"></vue-feather>Baixar relátorio</button> 
                                         <br>
+                                        
+                                        <form class="d-none d-sm-inline-block mt-1">
+                                            <div class="input-group input-group-navbar m-1">
+                                                Operador:<select class="form-control" v-model="operator" placeholder="Filtro" aria-label="Search">
+                                                    <option value=""></option>
+                                                    <option  v-for="(item,index) in operators" :key="item.id" :value="item.id">{{ item.first_name+' '+item.last_name }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-group input-group-navbar m-1">
+                                                Taxa:<select class="form-control" v-model="feelicence" placeholder="Filtro" aria-label="Search">
+                                                    <option value=""></option>
+                                                    <option  v-for="(item,index) in fees" :key="item.id" :value="item.id">{{ item.name }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-group input-group-navbar m-1">
+                                                Inicio:<input type="date" class="form-control" v-model="startdate" placeholder="Filtro" aria-label="Search">
+                                            </div>
+                                            <div class="input-group input-group-navbar m-1">
+                                                Fim:<input type="date" class="form-control" v-model="enddate" placeholder="Filtro" aria-label="Search">
+                                            </div>
+                                        </form>
+
+                                        <!-- <router-link to="/admin/payments/create" class="btn btn-pill btn-primary mt-3"><vue-feather type="plus"></vue-feather>Adicionar</router-link>  -->
+
+                                        <!-- <br>
 
                                         <form class="d-none d-sm-inline-block mt-3">
                                             <div class="input-group input-group-navbar">
                                                 <input type="text" class="form-control" v-model="searchQuery" placeholder="Procurar nome..." aria-label="Search">
                                             </div>
-                                        </form>
+                                        </form> -->
 								    </div>
                                     
                                     <div class="card-body">
@@ -124,7 +192,7 @@ onMounted(()=>{
                                                         <td>{{ moment(actualData.created_at).format('DD-MM-YYYY H:mm')}} </td>
                                                         
                                                         <td>
-                                                            <!-- <router-link :to="'/manager/payments/'+actualData.id+'/edit'"><vue-feather type="edit-2"></vue-feather></router-link> -->
+                                                            <!-- <router-link :to="'/admin/payments/'+actualData.id+'/edit'"><vue-feather type="edit-2"></vue-feather></router-link> -->
                                                             <router-link :to="'/manager/payments/'+actualData.id"><vue-feather type="eye"></vue-feather></router-link> 
                                                             <!-- <a href="#" @click.prevent="confirmDeletion(actualData)"><vue-feather type="trash"></vue-feather></a> -->
                                                             

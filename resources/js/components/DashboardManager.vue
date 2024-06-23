@@ -20,6 +20,7 @@ const equipments = ref(0)
 const mcscr = ref(0)
 const componentKey = ref(0);
 const componentKey1 = ref(0);
+const componentKey2 = ref(0);
 
 let currency = new Intl.NumberFormat();
 const chartData = reactive({
@@ -64,6 +65,34 @@ const chartData = reactive({
   const  chartOptions1 = {
           responsive: true, 
         }
+
+        const chartData2 = reactive({
+            labels: [ 
+                    'Janeiro',
+                    'Fevereiro',
+                    'Março',
+                    'Abril',
+                    'Maio',
+                    'Junho',
+                    'Julho',
+                    'Agosto',
+                    'Setembro',
+                    'Outubro',
+                    'Novembro',
+                    'Dezembro' 
+                ],
+                datasets: [
+                          {
+                            label: 'Operador por mês',
+                            backgroundColor: '#50B3C7',
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                          },
+                         
+                        ]
+        })
+  const  chartOptions2 = {
+          responsive: true, 
+        }
 const getDashboardData = () =>{
     axios.get('/admins/dashboard/getdashboarddata')
     .then((response)=>{
@@ -75,6 +104,9 @@ const getDashboardData = () =>{
 
         chartData.datasets[0].data = response.data.dataChartPaymentDay;
         chartData1.datasets[0].data = response.data.dataChartPaymentMonth;
+
+        chartData2.labels = response.data.data_operator;
+        chartData2.datasets[0].data = response.data.data_operator_payment;
         // malfunctions.value = response.data.malfunctions
         // suppliers.value = response.data.suppliers
         // tasks.value = response.data.tasks
@@ -88,6 +120,8 @@ const refreshData = () =>{
     getDashboardData()
     componentKey.value += 1;
     componentKey1.value += 1;
+    componentKey2.value += 1;
+
 }   
 
 
@@ -140,7 +174,7 @@ onUpdated(()=>{
                                                         </div>
                                                         <h1 class="mt-1 mb-3">{{users}}</h1>
                                                         <div class="mb-0">
-                                                             <router-link to="/manager/users"><vue-feather type="eye"></vue-feather></router-link>
+                                                             <router-link to="/admin/users"><vue-feather type="eye"></vue-feather></router-link>
                                                         </div>
                                                         
                                                     </div>
@@ -163,7 +197,7 @@ onUpdated(()=>{
                                                         </div>
                                                         <h1 class="mt-1 mb-3">{{ currency.format(today) }}</h1>
                                                         <div class="mb-0">
-                                                             <router-link to="/manager/payments"><vue-feather type="eye"></vue-feather></router-link>
+                                                             <router-link to="/admin/payments"><vue-feather type="eye"></vue-feather></router-link>
                                                         </div>
                                                         
                                                     </div>
@@ -186,7 +220,7 @@ onUpdated(()=>{
                                                         </div>
                                                         <h1 class="mt-1 mb-3">{{ currency.format(yesterday) }}</h1>
                                                         <div class="mb-0">
-                                                             <router-link to="/manager/payments"><vue-feather type="eye"></vue-feather></router-link>
+                                                             <router-link to="/admin/payments"><vue-feather type="eye"></vue-feather></router-link>
                                                         </div>
                                                         
                                                     </div>
@@ -209,7 +243,7 @@ onUpdated(()=>{
                                                         </div>
                                                         <h1 class="mt-1 mb-3">{{ currency.format(month)  }}</h1>
                                                         <div class="mb-0">
-                                                             <router-link to="/manager/payments"><vue-feather type="eye"></vue-feather></router-link>
+                                                             <router-link to="/admin/payments"><vue-feather type="eye"></vue-feather></router-link>
                                                         </div>
                                                         
                                                     </div>
@@ -232,7 +266,7 @@ onUpdated(()=>{
                                                         </div>
                                                         <h1 class="mt-1 mb-3">{{ currency.format(year)  }}</h1>
                                                         <div class="mb-0">
-                                                             <router-link to="/manager/payments"><vue-feather type="eye"></vue-feather></router-link>
+                                                             <router-link to="/admin/payments"><vue-feather type="eye"></vue-feather></router-link>
                                                         </div>
                                                         
                                                     </div>
@@ -273,6 +307,24 @@ onUpdated(()=>{
                                                             :options="chartOptions1"
                                                             :data="chartData1"
                                                             :key="componentKey1"
+                                                            />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">Cobrança das taxas por operador</h5>
+                                                    <h6 class="card-subtitle text-muted">Cobrança das taxas por mês durante corrente ano por operador.</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="chart">
+                                                        <Bar
+                                                            id="my-chart-id"
+                                                            :options="chartOptions2"
+                                                            :data="chartData2"
+                                                            :key="componentKey2"
                                                             />
                                                     </div>
                                                 </div>

@@ -13,8 +13,10 @@ const searchQuery = ref(null);
 const startdate = ref(null);
 const enddate = ref(null);
 const feelicence = ref(null);
+const operator = ref(null);
 
 const fees = ref([]);
+const operators = ref([]);
 
 const loadingDiv = ref(true);
 const loadingButtonDelete = ref(false);
@@ -37,6 +39,8 @@ let dataIdBeingDeleted = ref(null);
        .then((response)=>{
         retriviedData.value = response.data.payments;
         fees.value = response.data.fees;
+        operators.value = response.data.operators;
+
         loadingDiv.value=false;
 
         
@@ -86,7 +90,8 @@ const downloadReport = () => {
             params:{
             startdate: startdate.value,
             enddate: enddate.value,
-            fee: feelicence.value
+            fee: feelicence.value,
+            operator: operator.value
             }
         })
         .then((response) => {
@@ -134,6 +139,12 @@ onMounted(()=>{
                                         <br>
                                         
                                         <form class="d-none d-sm-inline-block mt-1">
+                                            <div class="input-group input-group-navbar m-1">
+                                                Operador:<select class="form-control" v-model="operator" placeholder="Filtro" aria-label="Search">
+                                                    <option value=""></option>
+                                                    <option  v-for="(item,index) in operators" :key="item.id" :value="item.id">{{ item.first_name+' '+item.last_name }}</option>
+                                                </select>
+                                            </div>
                                             <div class="input-group input-group-navbar m-1">
                                                 Taxa:<select class="form-control" v-model="feelicence" placeholder="Filtro" aria-label="Search">
                                                     <option value=""></option>

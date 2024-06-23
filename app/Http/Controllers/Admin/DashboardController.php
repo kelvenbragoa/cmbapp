@@ -25,6 +25,7 @@ class DashboardController extends Controller
 
         $yesterday = Carbon::yesterday();
         $users=User::count();
+        $operators = User::where('role_id',3)->get();
         $today_tax = Payments::whereDate('created_at',date('Y-m-d'))->sum('amount');
         $yesterday_tax = Payments::whereDate('created_at',$yesterday)->sum('amount');
         $month_tax = Payments::whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('amount');
@@ -33,6 +34,9 @@ class DashboardController extends Controller
 
         $dataChartPaymentMonth = [];
         $dataChartPaymentDay = [];
+
+        $data_operator = [];
+        $data_operator_payment = [];
 
         for ($x = 1; $x <= 31; $x++) {
             $paymentChartDay = Payments::whereDay('created_at',$x)->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('amount');
@@ -49,6 +53,11 @@ class DashboardController extends Controller
             $dataChartPaymentMonth[]=$paymentChartMonth;
  
         }
+
+        foreach($operators as $item){
+            $data_operator[]=$item->first_name;
+            $data_operator_payment[]=Payments::where('user_id',$item->id)->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('amount');
+        }
         
 
 
@@ -59,7 +68,9 @@ class DashboardController extends Controller
             'month'=>$month_tax,
             'year'=>$year_tax,
             'dataChartPaymentMonth'=>$dataChartPaymentMonth,
-            'dataChartPaymentDay'=>$dataChartPaymentDay
+            'dataChartPaymentDay'=>$dataChartPaymentDay,
+            'data_operator'=>$data_operator,
+            'data_operator_payment'=>$data_operator_payment,
 
 
         ];
