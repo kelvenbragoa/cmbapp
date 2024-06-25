@@ -36,10 +36,10 @@ class DashboardController extends Controller
         $yesterday = Carbon::yesterday();
         $users=User::count();
         $operators = User::where('role_id',3)->get();
-        $today_tax = Payments::whereDate('created_at',date('Y-m-d'))->sum('amount');
-        $yesterday_tax = Payments::whereDate('created_at',$yesterday)->sum('amount');
-        $month_tax = Payments::whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('amount');
-        $year_tax = Payments::whereYear('created_at',date('Y'))->sum('amount');
+        $today_tax = Payments::whereDate('created_at',date('Y-m-d'))->sum('total');
+        $yesterday_tax = Payments::whereDate('created_at',$yesterday)->sum('total');
+        $month_tax = Payments::whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('total');
+        $year_tax = Payments::whereYear('created_at',date('Y'))->sum('total');
 
 
         $dataChartPaymentMonth = [];
@@ -49,7 +49,7 @@ class DashboardController extends Controller
         $data_operator_payment = [];
 
         for ($x = 1; $x <= 31; $x++) {
-            $paymentChartDay = Payments::whereDay('created_at',$x)->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('amount');
+            $paymentChartDay = Payments::whereDay('created_at',$x)->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('total');
 
           
                 $dataChartPaymentDay[]=$paymentChartDay;
@@ -58,7 +58,7 @@ class DashboardController extends Controller
         }
 
         for($i=1; $i<=12; $i++){
-            $paymentChartMonth = Payments::whereMonth('created_at',$i)->whereYear('created_at',date('Y'))->sum('amount');
+            $paymentChartMonth = Payments::whereMonth('created_at',$i)->whereYear('created_at',date('Y'))->sum('total');
 
             $dataChartPaymentMonth[]=$paymentChartMonth;
  
@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
         foreach($operators as $item){
             $data_operator[]=$item->first_name;
-            $data_operator_payment[]=Payments::where('user_id',$item->id)->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('amount');
+            $data_operator_payment[]=Payments::where('user_id',$item->id)->whereMonth('created_at',date('m'))->whereYear('created_at',date('Y'))->sum('total');
         }
         
 
