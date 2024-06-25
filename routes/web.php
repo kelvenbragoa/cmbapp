@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::get('/auxiliar-create-data', [App\Http\Controllers\GlobalController::class, 'auxiliardata']);
 
 
+Route::get('/updatedata', [App\Http\Controllers\Admin\DashboardController::class, 'updatedata']);
 
 // Route::group(['middleware'=>['auth','admin']], function(){
     Route::group(['middleware'=>['auth']], function(){
@@ -29,7 +30,6 @@ Route::get('/auxiliar-create-data', [App\Http\Controllers\GlobalController::clas
     //rotas para CRUD Administradores
     Route::get('/admins/dashboard/getdashboarddata', [App\Http\Controllers\Admin\DashboardController::class, 'dashboarddata']);
 
-    Route::get('/updatedata', [App\Http\Controllers\Admin\DashboardController::class, 'updatedata']);
 
     Route::resource('users', 'App\Http\Controllers\Admin\UsersController');
     Route::resource('fees', 'App\Http\Controllers\Admin\FeesController');
