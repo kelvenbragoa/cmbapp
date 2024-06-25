@@ -17,6 +17,11 @@ class Payments extends Model
         'obs',
         'latitude',
         'longitude',
+        'quantity',
+        'total',
+       'method',
+       'uuid',
+       'status'
     ];
 
     public function user(){

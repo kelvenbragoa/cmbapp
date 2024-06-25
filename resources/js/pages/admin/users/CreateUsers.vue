@@ -3,7 +3,7 @@
 import {onMounted, ref, reactive,watch} from 'vue';
 import axios from 'axios';
 import {useToastr} from '../../../toastr';
-import {Form, Field} from 'vee-validate';
+import {Form, Field, FieldArray} from 'vee-validate';
 import * as yup from 'yup';
 import { useRouter } from "vue-router";
 import moment from 'moment'
@@ -24,6 +24,7 @@ let account_statuses =ref([]);
 const loadingDiv = ref(true);
 const province_id_to_city = ref(0);
 const user_role = ref(0);
+const permissionsdata = ref([]);
 
 const schema = yup.object({
     
@@ -90,6 +91,7 @@ const getAuxiliarData = () => {
         provinces.value = response.data.provinces;
         user_statuses.value = response.data.user_statuses;
         account_statuses.value = response.data.account_statuses;
+        permissionsdata.value = response.data.permissions;
         loadingDiv.value=false;
 
        
@@ -183,6 +185,19 @@ onMounted(()=>{
 
                                                     
 												</div>
+
+                                                <div class="row">
+                                                    <label class="form-label" for="role_id">Permissões</label>
+                                               
+                                                    <FieldArray class="form-control" name="planequipments">
+                                                                                <div class="mb-2" v-for="(permission,idx) in permissionsdata" :key="permission.id">
+                                                                                    <Field class="form-check-input" type="checkbox" :value="permission.id" :id="`userpermissions[${idx}].permission_id`" :name="`userpermissions[${idx}].permission_id`"/>
+                                                                                    <span class="form-check-label">
+                                                                                    {{ permission.name }} - {{ permission.amount }} MT
+                                                                                    </span> 
+                                                                                </div>
+                                                                            </FieldArray>
+                                                </div>
                                              
 												<button type="submit" class="btn btn-primary" :disabled="loading">
                                                     <div v-if="loading" class="spinner-border spinner-border-sm" role="status"></div>

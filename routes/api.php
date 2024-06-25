@@ -16,13 +16,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/loginuser',[\App\Http\Controllers\Api\AuthUserController::class,'loginuser']);
 Route::get('/dashboard/{id}',[\App\Http\Controllers\Api\DashboardController::class,'dashboard']);
-Route::get('/getlicences',[\App\Http\Controllers\Api\FeeAndLicenceController::class,'getlicences']);
+Route::get('/getlicences/{id}/user',[\App\Http\Controllers\Api\FeeAndLicenceController::class,'getlicences']);
 Route::get('/getlicences/{id}',[\App\Http\Controllers\Api\FeeAndLicenceController::class,'licencedetail']);
 Route::get('/getpayments/{id}',[\App\Http\Controllers\Api\PaymentsController::class,'getpayments']);
 Route::get('/getpayment/{id}',[\App\Http\Controllers\Api\PaymentsController::class,'paymentdetail']);
 Route::post('/createpayment',[\App\Http\Controllers\Api\PaymentsController::class,'createpayment']);
 
+Route::get('/get-status/{id}',[\App\Http\Controllers\Api\PaymentsController::class,'getstatus']);
+Route::get('/verify/{id}',[\App\Http\Controllers\Api\PaymentsController::class,'verify']);
+
+
+
+
+
 Route::get('/hello',[\App\Http\Controllers\Api\DashboardController::class,'index']);
+
+
 
 
 

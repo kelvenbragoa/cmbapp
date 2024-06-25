@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             //
-            $table->string('method')->default('cash');
+            $table->integer('status')->default(0);
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             //
-            $table->dropColumn('method');
+            $table->dropColumn('status');
         });
     }
 };

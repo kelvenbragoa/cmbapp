@@ -152,7 +152,7 @@ onMounted(()=>{
                                                         <td>{{ actualData.role.name}}</td>
                                                         <td><span class="badge bg-success" v-if="actualData.user_status_id == 1">Ativo</span> <span class="badge bg-danger" v-else>Inativo</span></td>
                                                         <td>
-                                                            <!-- <router-link :to="'/admin/users/'+actualData.id+'/edit'"><vue-feather type="edit-2"></vue-feather></router-link> -->
+                                                            <router-link :to="'/admin/users/'+actualData.id+'/edit'"><vue-feather type="edit-2"></vue-feather></router-link>
                                                             <router-link :to="'/admin/users/'+actualData.id"><vue-feather type="eye"></vue-feather></router-link> 
                                                             <!-- <a href="#" @click.prevent="confirmDeletion(actualData)"><vue-feather type="trash"></vue-feather></a> -->
                                                             

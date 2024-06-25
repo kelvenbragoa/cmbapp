@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\FeeAnLicence;
 use App\Models\Payments;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -22,6 +24,10 @@ class DashboardController extends Controller
             $year_tax = Payments::where('user_id',$id)->whereYear('created_at',date('Y'))->sum('amount');
 
             $licence = FeeAnLicence::where('is_active',1)->orderBy('name','asc')->get();
+
+            // $licence = User::with('permissions.fee')->find(Auth::user()->id);
+
+
             
             // return response([
                 

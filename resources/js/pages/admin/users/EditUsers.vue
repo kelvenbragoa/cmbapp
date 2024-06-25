@@ -5,7 +5,7 @@ import { ref, onMounted, reactive, defineEmits, defineComponent,watch } from "vu
 import moment from 'moment'
 import {useToastr} from '../../../toastr';
 import {debounce} from 'lodash';
-import {Form, Field} from 'vee-validate';
+import {Form, Field, FieldArray} from 'vee-validate';
 import { useRouter} from "vue-router";
 import * as yup from 'yup';
 import VueFeather from 'vue-feather';
@@ -24,6 +24,8 @@ let loadingDiv =ref([true]);
 const toastr = useToastr();
 const router = useRouter();
 let self = this;
+const permissionsdata = ref([]);
+
 let currentvalue = ref([]);
 
 
@@ -54,6 +56,8 @@ const getData = () => {
         retrievedData.value = response.data.user;
         roles.value = response.data.roles;
         user_statuses.value = response.data.user_statuses;
+        permissionsdata.value = response.data.permissions;
+
 
         loadingDiv.value=false;
 
@@ -179,6 +183,26 @@ onMounted(()=>{
 
                                                            
                                                         </div>
+                                                        <div class="row">
+                                                            <label class="form-label" for="role_id">Permissões atuais</label>
+                                                             <div class="m-2"  v-for="(permission,idx) in retrievedData.permissions" :key="permission.id">
+                                                                <p>{{ idx+1 }} - <strong>{{ permission.fee.name }}</strong></p>
+                                                             </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                        
+                                                    <label class="form-label" for="role_id">Reescrever Permissões</label>
+                                               
+                                                    <FieldArray class="form-control" name="planequipments">
+                                                                                <div class="mb-2" v-for="(permission,idx) in permissionsdata" :key="permission.id">
+                                                                                    <Field class="form-check-input" type="checkbox" :value="permission.id"  :id="`userpermissions[${idx}].permission_id`" :name="`userpermissions[${idx}].permission_id`" :unchecked-value="true"/>
+                                                                                    <span class="form-check-label">
+                                                                                    {{ permission.name }} - {{ permission.amount }} MT
+                                                                                    </span> 
+                                                                                </div>
+                                                                            </FieldArray>
+                                                </div>
                                                        
 
                                                       

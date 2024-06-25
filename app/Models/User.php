@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function user_status(){
         return $this->hasOne('App\Models\UserStatus', 'id', 'user_status_id');
     }
+
+    public function permissions(){
+        return $this->hasMany('App\Models\UserPermission', 'user_id', 'id');
+    }
 }
