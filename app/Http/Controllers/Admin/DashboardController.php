@@ -21,6 +21,16 @@ class DashboardController extends Controller
 {
     //
 
+    public function updatedata(){
+        $payments = Payments::all();
+
+        foreach ($payments as $payment) {
+            $payment->update([
+                'total'=>$payment->amount*$payment->quantity
+            ]);
+        }
+    }
+
     public function dashboarddata(){
 
         $yesterday = Carbon::yesterday();
