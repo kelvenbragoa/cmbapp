@@ -178,6 +178,8 @@ onMounted(()=>{
                                                         <th>#</th>
                                                         <th>Taxa/Licença</th>
                                                         <th>Valor</th>
+                                                        <th>Quantidade</th>
+                                                        <th>Total</th>
                                                         <th>Operador</th>
                                                         <th>Data</th>
                                                         <th>Ações</th>
@@ -188,6 +190,8 @@ onMounted(()=>{
                                                         <td>#{{ index + 1 }}</td>
                                                         <td>{{ actualData.fee.name}}</td>
                                                         <td>{{ actualData.amount}} MT</td>
+                                                        <td>{{ actualData.quantity ?? ''}}</td>
+                                                        <td>{{ actualData.total ?? ''}} MT</td>
                                                         <td>{{ actualData.user.first_name}} {{ actualData.user.last_name}}</td>
                                                         <td>{{ moment(actualData.created_at).format('DD-MM-YYYY H:mm')}} </td>
                                                         
