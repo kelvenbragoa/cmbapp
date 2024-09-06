@@ -74,6 +74,8 @@ onMounted(()=>{
                                                 <div class="w-100">
                                                     <p>Nome da Taxas e Licença: {{ retrievedData.fee.name }}</p>
                                                     <p>Valor: {{ retrievedData.amount }} MT</p>
+                                                    <p>Quantidade: {{ retrievedData.quantity }}</p>
+                                                    <p>Total: {{ retrievedData.total }} MT</p>
                                                     <p>Operador: {{ retrievedData.user.first_name}} {{ retrievedData.user.last_name}}</p>
                                                     <p>Data: {{moment(retrievedData.created_at).format('DD-MM-YYYY H:mm')}}</p>      
                                                 </div>

@@ -11,7 +11,7 @@
     <tbody>
         <tr>
             <td>{{count($payments)}}</td>
-            <td>{{$payments->sum('amount')}} MT</td>
+            <td>{{$payments->sum('total')}} MT</td>
             <td>{{Auth::user()->first_name}} {{Auth::user()->last_name}}</td>
             <td>{{date('d-m-Y H:i')}}</td>
 
@@ -24,6 +24,8 @@
     <tr>
         <th>Data</th>
         <th>Valor</th>
+        <th>Quantidade</th>
+        <th>Total</th>
         <th>Licença</th>
         <th>Titulo</th>
         <th>Operador</th>
@@ -36,6 +38,8 @@
         <tr>
             <td>{{ $payment->created_at->format('d-m-Y H:i') }}</td>
             <td>{{ $payment->amount }} MT</td>
+            <td>{{ $payment->quantity }}</td>
+            <td>{{ $payment->total }} MT</td>
             <td>{{ $payment->fee->name }}</td>
             <td>{{ $payment->title }}</td>
             <td>{{ $payment->user->first_name }} {{ $payment->user->last_name }}</td>
